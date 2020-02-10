@@ -8,4 +8,6 @@ public interface PokemonTypeRepository {
     PokemonType findPokemonTypeById(int id);
     PokemonType findPokemonTypeByName(String name);
     List<PokemonType> findAllPokemonType();
+
+    List<PokemonType> findPokemonTypeByTypes(List<String> types);
 }
