@@ -2,9 +2,12 @@ package com.miage.altea.tp.pokemon_type_api.service;
 
 import com.miage.altea.tp.pokemon_type_api.bo.PokemonType;
 import com.miage.altea.tp.pokemon_type_api.repository.PokemonTypeRepository;
+import com.miage.altea.tp.pokemon_type_api.repository.TranslationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -13,13 +16,21 @@ public class PokemonTypeServiceImpl implements PokemonTypeService{
     @Autowired
     public PokemonTypeRepository pokemonTypeRepository;
 
-    public PokemonTypeServiceImpl(PokemonTypeRepository repo){
+    @Autowired
+    public TranslationRepository translationRepository;
+
+    public PokemonTypeServiceImpl(PokemonTypeRepository repo, TranslationRepository translationRepository){
+
         this.pokemonTypeRepository = repo;
+        this.translationRepository = translationRepository;
     }
 
     @Override
     public PokemonType getPokemonType(int id) {
-        return this.pokemonTypeRepository.findPokemonTypeById(id);
+        PokemonType pok = this.pokemonTypeRepository.findPokemonTypeById(id);
+        String name = translationRepository.getPokemonName(id, LocaleContextHolder.getLocale());
+        pok.setName(name);
+        return pok;
     }
 
     @Override
@@ -34,6 +45,22 @@ public class PokemonTypeServiceImpl implements PokemonTypeService{
 
     @Override
     public List<PokemonType> getAllPokemonTypes(){
-        return this.pokemonTypeRepository.findAllPokemonType();
+        List<PokemonType> list = this.pokemonTypeRepository.findAllPokemonType();
+        Collections.sort(list);
+        for(PokemonType pok : list){
+            String name = translationRepository.getPokemonName(pok.getId(), LocaleContextHolder.getLocale());
+            pok.setName(name);
+        }
+        return list;
+    }
+
+    @Override
+    public void setTranslationRepository(TranslationRepository translationRepository) {
+        this.translationRepository = translationRepository;
+    }
+
+    @Override
+    public void setPokemonTypeRepository(PokemonTypeRepository pokemonTypeRepository) {
+        this.pokemonTypeRepository = pokemonTypeRepository;
     }
 }

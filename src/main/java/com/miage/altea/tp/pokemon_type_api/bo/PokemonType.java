@@ -2,7 +2,7 @@ package com.miage.altea.tp.pokemon_type_api.bo;
 
 import java.util.List;
 
-public class PokemonType {
+public class PokemonType implements Comparable<PokemonType>{
     private int id;
     private int baseExperience;
     private int height;
@@ -74,5 +74,10 @@ public class PokemonType {
 
     public void setTypes(List<String> types) {
         this.types = types;
+    }
+
+    @Override
+    public int compareTo(PokemonType o) {
+        return this.getName().compareTo(o.getName());
     }
 }
