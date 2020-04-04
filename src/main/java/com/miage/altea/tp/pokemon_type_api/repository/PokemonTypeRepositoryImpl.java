@@ -6,10 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class PokemonTypeRepositoryImpl implements PokemonTypeRepository{
@@ -75,7 +72,7 @@ public class PokemonTypeRepositoryImpl implements PokemonTypeRepository{
         for(PokemonType pt : pokemons){
             res.add(pt);
         }
-        Collections.sort(res);
+        res.sort(Comparator.comparing(PokemonType::getId));
         return res;
     }
 }

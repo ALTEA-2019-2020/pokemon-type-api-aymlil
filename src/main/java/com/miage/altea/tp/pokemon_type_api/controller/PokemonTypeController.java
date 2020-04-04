@@ -29,12 +29,12 @@ public class PokemonTypeController {
     }
 
     @GetMapping(value="/", params="name")
-    PokemonType getPokemonTypeFromName(@RequestParam(value = "name",required=false) String name){
+    public PokemonType getPokemonTypeFromName(@RequestParam(value = "name", required = false) String name){
         return this.pokemonTypeService.getPokemonTypeByName(name);
     }
 
     @GetMapping(value="/", params="types")
-    List<PokemonType> getPokemonTypeFromTypes(@RequestParam(value = "types",required=false) List<String> types){
+    public List<PokemonType> getPokemonTypeFromTypes(@RequestParam(value = "types", required = false) List<String> types){
         return this.pokemonTypeService.getPokemonTypeByTypes(types);
     }
 }
